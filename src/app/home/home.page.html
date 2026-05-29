@@ -1,0 +1,93 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="main-toolbar">
+    <div class="header-container">
+      <div class="logo-area">
+        <span class="digital-accent">DIGITAL</span>
+        <h1 class="logo-title">TERMINAL</h1>
+      </div>
+      <p class="logo-subtitle">Acceso a la base de datos del Mundo Digital</p>
+    </div>
+  </ion-toolbar>
+  
+  <div class="search-container">
+    <ion-searchbar 
+      [value]="searchTerm"
+      (ionInput)="onSearchChange($event)"
+      placeholder="Buscar por nombre..." 
+      class="cyber-searchbar"
+      animated="true"
+      debounce="0">
+    </ion-searchbar>
+  </div>
+</ion-header>
+
+<ion-content class="digital-content">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content 
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para actualizar..."
+      refreshingSpinner="crescent"
+      refreshingText="Sincronizando con el Mundo Digital...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading initial state -->
+  <div *ngIf="loading && digimons.length === 0" class="skeleton-grid">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="3" *ngFor="let item of [1,2,3,4,5,6,7,8]">
+          <ion-card class="skeleton-card">
+            <div class="skeleton-img-box">
+              <ion-skeleton-text animated style="width: 80%; height: 80%; border-radius: 8px;"></ion-skeleton-text>
+            </div>
+            <ion-card-content class="skeleton-content">
+              <ion-skeleton-text animated style="width: 60%; height: 16px; margin-bottom: 8px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 40%; height: 12px;"></ion-skeleton-text>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="terminal-alert error-box">
+    <ion-icon name="hardware-chip-outline" class="alert-icon"></ion-icon>
+    <h2>Falla del Servidor</h2>
+    <p>La conexión con la base de datos externa ha fallado. Revisa tu conexión de red o vuelve a intentar.</p>
+    <ion-button fill="outline" color="primary" (click)="loadInitialDigimons()">
+      <ion-icon slot="start" name="refresh-outline"></ion-icon>
+      Reconectar
+    </ion-button>
+  </div>
+
+  <!-- Empty Search State -->
+  <div *ngIf="!loading && digimons.length === 0 && !error" class="terminal-alert empty-box">
+    <ion-icon name="search-outline" class="alert-icon"></ion-icon>
+    <h2>Sin Coincidencias</h2>
+    <p>No se encontraron registros activos para "{{ searchTerm }}" en el Mundo Digital.</p>
+  </div>
+
+  <!-- Data Display List -->
+  <div *ngIf="digimons.length > 0" class="data-list-area">
+    <ion-list class="digital-list">
+      <ion-item *ngFor="let digimon of digimons" (click)="openDetail(digimon)" detail="true" class="digital-item hover-glow" button>
+        <ion-thumbnail slot="start" class="digital-thumbnail">
+          <img [src]="digimon.image" [alt]="digimon.name" loading="lazy" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2 class="digimon-name-title">{{ digimon.name }}</h2>
+          <p class="digimon-level-subtitle">Nivel: {{ digimon.level ? digimon.level : 'Desconocido' }} | ID: {{ digimon.id | digitalId }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <!-- Infinite Scroll -->
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)" threshold="150px">
+      <ion-infinite-scroll-content 
+        loadingSpinner="crescent" 
+        loadingText="Cargando más Digimons...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

@@ -1,0 +1,91 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="detail-toolbar">
+    <ion-title>{{ digimonName }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding digital-bg">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="center-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p class="loading-text">Accediendo a la base de datos de Digimons...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="center-container error-state">
+    <ion-icon name="hardware-chip-outline" color="danger" class="error-icon"></ion-icon>
+    <h3>Error de Conexión</h3>
+    <p>No se pudo establecer comunicación con el Mundo Digital.</p>
+    <ion-button fill="outline" color="primary" (click)="loadDetail()">Reintentar</ion-button>
+  </div>
+
+  <!-- Content State -->
+  <div *ngIf="!loading && !error && digimon" class="fade-in">
+    <!-- Digimon Image Showcase -->
+    <div class="image-showcase">
+      <div class="glow-backdrop" [class]="digimon.levels[0]?.level | lowercase"></div>
+      <img [src]="digimon.images[0]?.href" [alt]="digimon.name" class="digimon-img" />
+      <span class="digital-id">{{ digimon.id | digitalId }}</span>
+    </div>
+
+    <!-- Core Badges -->
+    <div class="badges-row">
+      <ion-badge *ngFor="let lvl of digimon.levels" [color]="getLevelColor(lvl.level)" class="digital-badge">
+        {{ lvl.level }}
+      </ion-badge>
+      <ion-badge *ngFor="let attr of digimon.attributes" [color]="getAttributeColor(attr.attribute)" class="digital-badge">
+        {{ attr.attribute }}
+      </ion-badge>
+    </div>
+
+    <!-- Description Card -->
+    <ion-card class="glass-card ion-no-margin ion-margin-bottom">
+      <ion-card-content>
+        <div class="card-header-cyan">PERFIL DEL DIGIMON</div>
+        <p class="description-text">{{ getCleanDescription(digimon.descriptions) }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Specs Grid -->
+    <ion-grid class="ion-no-padding ion-margin-bottom">
+      <ion-row>
+        <ion-col size="6">
+          <div class="spec-box">
+            <span class="spec-label">TIPO</span>
+            <span class="spec-value">{{ digimon.types[0]?.type || 'N/A' }}</span>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="spec-box">
+            <span class="spec-label">GRUPO</span>
+            <span class="spec-value" style="font-size: 11px;">{{ digimon.fields[0]?.field || 'N/A' }}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Skills Section -->
+    <div class="section-title">HABILIDADES DE COMBATE</div>
+
+    <div *ngIf="digimon.skills.length === 0" class="no-skills">
+      Este Digimon combate mediante ataques básicos.
+    </div>
+
+    <ion-list lines="none" class="digital-list" *ngIf="digimon.skills.length > 0">
+      <ion-item *ngFor="let skill of digimon.skills" class="digital-item">
+        <ion-label>
+          <div class="skill-header">
+            <span class="skill-name">{{ skill.skill }}</span>
+            <span class="skill-translation" *ngIf="skill.translation">({{ skill.translation }})</span>
+          </div>
+          <p class="skill-desc" *ngIf="skill.description">{{ skill.description }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

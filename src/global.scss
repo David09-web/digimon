@@ -1,0 +1,91 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/* Ionic Dark Mode - Always Dark for a Digital/Cyberpunk aesthetic */
+@import "@ionic/angular/css/palettes/dark.always.css";
+
+/* Custom Theme Variables & Styles */
+:root {
+  /* Digital Cyan */
+  --ion-color-primary: #00e5ff;
+  --ion-color-primary-rgb: 0, 229, 255;
+  --ion-color-primary-contrast: #000000;
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
+  --ion-color-primary-shade: #00c9e0;
+  --ion-color-primary-tint: #33eaff;
+
+  /* Neon Purple */
+  --ion-color-secondary: #d500f9;
+  --ion-color-secondary-rgb: 213, 0, 249;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #bb00dc;
+  --ion-color-secondary-tint: #dc33fa;
+
+  /* Neon Amber */
+  --ion-color-tertiary: #ff9100;
+  --ion-color-tertiary-rgb: 255, 145, 0;
+  --ion-color-tertiary-contrast: #000000;
+  --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+  --ion-color-tertiary-shade: #e08000;
+  --ion-color-tertiary-tint: #ffa733;
+
+  /* Darker backgrounds for a ultra-premium look */
+  --ion-background-color: #0b0f19;
+  --ion-background-color-rgb: 11, 15, 25;
+  
+  --ion-text-color: #e2e8f0;
+  --ion-text-color-rgb: 226, 232, 240;
+
+  /* Smooth custom glassmorphism class */
+  --glass-bg: rgba(18, 24, 38, 0.7);
+  --glass-border: rgba(0, 229, 255, 0.15);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00e5ff;
+}
+
+/* Premium micro-animations and typography from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Outfit', sans-serif;
+}
+
